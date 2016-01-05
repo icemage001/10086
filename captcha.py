@@ -54,17 +54,18 @@ def deCAPTCHA(png):
         maxh = maxh - miny
         cropedAry.append((minx, miny, maxw, maxh))
 
-    fig = plt.figure()
+    # fig = plt.figure()
     #保存各个字符图片
     for id, (x, y, w, h) in enumerate(cropedAry):
         roi = cropeds[id][y:y + h, x:x + w]
         thresh = roi.copy()
         # a = fig.add_subplot(1, len(ary), id + 1)
         res = cv2.resize(thresh, (20, 25))
-        cv2.imwrite('code' + str(id) + '.jpg', res)
+        vcode_folder = 'vcode'
+        cv2.imwrite(vcode_folder + '\\' + 'code' + str(id) + '.jpg', res)
     pics = []
     for x in range(4):
-        p = cv2.imread('code' + str(x) + '.jpg')
+        p = cv2.imread(vcode_folder + '\\' + 'code' + str(x) + '.jpg')
         pics.append(p)
 
     verifycode = ''
@@ -83,4 +84,3 @@ def getnumber(pic):
             min_index = i
     return min_index[0]
 
-deCAPTCHA('verifycode.jpg')
